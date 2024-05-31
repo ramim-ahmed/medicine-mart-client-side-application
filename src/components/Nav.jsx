@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import logo from "../assets/navLogo.png";
 import { RiMenuFoldLine } from "react-icons/ri";
+import { RiShoppingBasket2Line } from "react-icons/ri";
 export default function Nav() {
   return (
     <nav className="py-3 border-b">
@@ -15,12 +16,14 @@ export default function Nav() {
             <ul className="flex  items-center space-x-6">
               <li>Home</li>
               <li>Shop</li>
-              <li>Cart</li>
               <li>Language</li>
               <li>
                 <button className="bg-themeColor text-white rounded-3xl px-5 py-1">
                   Join US
                 </button>
+              </li>
+              <li>
+                <RiShoppingBasket2Line className="w-7 h-7" />
               </li>
             </ul>
           </div>
