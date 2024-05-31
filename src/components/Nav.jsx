@@ -17,7 +17,11 @@ export default function Nav() {
               <li>Shop</li>
               <li>Cart</li>
               <li>Language</li>
-              <li>Join US</li>
+              <li>
+                <button className="bg-themeColor text-white rounded-3xl px-5 py-1">
+                  Join US
+                </button>
+              </li>
             </ul>
           </div>
           <div className="lg:hidden block">
