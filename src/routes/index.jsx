@@ -1,10 +1,10 @@
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import RootLayout from "@/Layouts/RootLayout";
+import Login from "@/pages/Auth/Login/Login";
+import Register from "@/pages/Auth/Register/Register";
 import Cart from "@/pages/Cart/Cart";
 import Home from "@/pages/Home/Home";
-import Login from "@/pages/Login/Login";
 import NotFound from "@/pages/NotFound/NotFound";
-import Register from "@/pages/Register/Register";
 import Shop from "@/pages/Shop/Shop";
 import { createBrowserRouter } from "react-router-dom";
 const routes = createBrowserRouter([
