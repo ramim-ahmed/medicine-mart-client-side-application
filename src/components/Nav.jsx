@@ -18,12 +18,17 @@ export default function Nav() {
               <li>Shop</li>
               <li>Language</li>
               <li>
-                <button className="bg-themeColor text-white rounded-3xl px-5 py-1">
-                  Join US
-                </button>
+                <Link to="/login">
+                  <button className="bg-themeColor text-white rounded-3xl px-5 py-0.5">
+                    Join US
+                  </button>
+                </Link>
               </li>
-              <li>
+              <li className="relative">
                 <RiShoppingBasket2Line className="w-7 h-7" />
+                <p className="bg-themeColor rounded-full absolute -right-2 -top-1 text-white font-semibold w-5 h-5 flex items-center justify-center">
+                  <span className="text-sm">0</span>
+                </p>
               </li>
             </ul>
           </div>
