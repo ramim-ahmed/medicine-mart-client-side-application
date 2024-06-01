@@ -21,7 +21,7 @@ export default function UserProfile() {
             />
           </div>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-36">
+        <DropdownMenuContent className="w-48">
           <Link to="/update-profile">
             <DropdownMenuItem>
               <Button variant="outline" className="w-full">
@@ -29,10 +29,24 @@ export default function UserProfile() {
               </Button>
             </DropdownMenuItem>
           </Link>
-          <Link to="/dashboard">
+          <Link to="/dashboard/admin">
             <DropdownMenuItem>
               <Button variant="outline" className="w-full">
-                Dashboard
+                Admin Dashboard
+              </Button>
+            </DropdownMenuItem>
+          </Link>
+          <Link to="/dashboard/seller">
+            <DropdownMenuItem>
+              <Button variant="outline" className="w-full">
+                Seller Dashboard
+              </Button>
+            </DropdownMenuItem>
+          </Link>
+          <Link to="/dashboard/user">
+            <DropdownMenuItem>
+              <Button variant="outline" className="w-full">
+                User Dashboard
               </Button>
             </DropdownMenuItem>
           </Link>
