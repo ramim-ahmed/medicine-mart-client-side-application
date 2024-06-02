@@ -6,7 +6,6 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { CgSpinner } from "react-icons/cg";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogHeader,
   DialogTitle,
@@ -17,9 +16,13 @@ import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import { uploadImage } from "@/api/utils";
 import toast from "react-hot-toast";
+import Spinner from "@/components/Spinner";
+import { TiDeleteOutline } from "react-icons/ti";
 export default function Categories() {
   const queryClient = useQueryClient();
   const [name, setName] = useState("");
+  const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [imageFile, setImageFile] = useState("");
   const secureApi = useSecureApi();
   const { data, isLoading } = useQuery({
@@ -37,6 +40,7 @@ export default function Categories() {
 
   const handleNewCategory = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const photo = await uploadImage(imageFile);
       const data = {
@@ -45,8 +49,12 @@ export default function Categories() {
       };
       await addNewCategory(data);
       toast.success("Category Created Successfully!!");
+      setLoading(false);
+      setOpen(false);
     } catch (error) {
       toast.error("Category Created Failed!!");
+      setLoading(false);
+      setOpen(false);
     }
   };
   if (isLoading) {
@@ -62,8 +70,8 @@ export default function Categories() {
       <div>
         <div className="flex justify-between items-center">
           <Button variant="outline">All Categories List</Button>
-          <Dialog>
-            <DialogTrigger asChild>
+          <Dialog open={open}>
+            <DialogTrigger onClick={() => setOpen(true)} asChild>
               <Button variant="outline">Add Category</Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-md">
@@ -77,7 +85,7 @@ export default function Categories() {
                     placeholder="Enter Category Name"
                   />
                 </div>
-                <div className="grid w-full max-w-sm items-center gap-1.5">
+                <div className="grid w-full items-center gap-1.5">
                   <Label htmlFor="photo">Photo</Label>
                   <Input
                     id="photo"
@@ -85,11 +93,23 @@ export default function Categories() {
                     onChange={(e) => setImageFile(e.target.files[0])}
                   />
                 </div>
-                <DialogClose asChild>
-                  <Button className="w-full bg-themeColor" type="submit">
-                    Submit
+                <div className="flex items-center justify-between">
+                  <Button
+                    disabled={!name || !imageFile}
+                    className="w-3/4 bg-themeColor"
+                    type="submit"
+                  >
+                    {loading ? <Spinner /> : "Add Now"}
                   </Button>
-                </DialogClose>
+                  <Button
+                    onClick={() => setOpen(false)}
+                    variant="outline"
+                    type="button"
+                    size="icon"
+                  >
+                    <TiDeleteOutline className="h-6 w-6" />
+                  </Button>
+                </div>
               </form>
             </DialogContent>
           </Dialog>

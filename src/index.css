@@ -5,6 +5,9 @@
 .inter-font {
   font-family: "Inter", sans-serif;
 }
+.lucide-x {
+  display: none;
+}
 
 @layer base {
   :root {

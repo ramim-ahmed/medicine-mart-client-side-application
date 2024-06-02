@@ -15,7 +15,6 @@ export default function CategoriesTable({ categories }) {
           <TableHead>#</TableHead>
           <TableHead>Photo</TableHead>
           <TableHead>Name</TableHead>
-          <TableHead>Total Items</TableHead>
           <TableHead>Action</TableHead>
         </TableRow>
       </TableHeader>
