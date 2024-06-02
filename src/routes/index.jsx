@@ -9,7 +9,7 @@ import AdminHome from "@/pages/Dashboard/Admin/AdminHome";
 import BannerAdvertisement from "@/pages/Dashboard/Admin/BannerAdvertisement";
 import Categories from "@/pages/Dashboard/Admin/Categories";
 import PaymentManage from "@/pages/Dashboard/Admin/PaymentManage";
-import SaleReport from "@/pages/Dashboard/Admin/SaleReport";
+import SalesReport from "@/pages/Dashboard/Admin/SalesReport";
 import User from "@/pages/Dashboard/Admin/User";
 import AskForAdvertisement from "@/pages/Dashboard/Seller/AskForAdvertisement";
 import MedicineManage from "@/pages/Dashboard/Seller/MedicineManage";
@@ -58,8 +58,8 @@ const routes = createBrowserRouter([
         element: <Categories />,
       },
       {
-        path: "sale-report",
-        element: <SaleReport />,
+        path: "sales-report",
+        element: <SalesReport />,
       },
       {
         path: "payments",

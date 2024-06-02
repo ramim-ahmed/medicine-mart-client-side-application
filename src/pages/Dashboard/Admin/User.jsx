@@ -1,3 +1,4 @@
+import MetaData from "@/components/MetaData";
 import UserTable from "@/components/Table/UserTable";
 import { Button } from "@/components/ui/button";
 import useSecureApi from "@/hooks/useSecureApi";
@@ -16,15 +17,17 @@ export default function User() {
       </div>
     );
   }
-  console.log(data);
   return (
-    <div>
+    <>
+      <MetaData title="Admin Dashboard | Users" />
       <div>
-        <Button variant="outline">All Users Lists</Button>
+        <div>
+          <Button variant="outline">All Users Lists</Button>
+        </div>
+        <div className="overflow-y-scroll h-[500px]">
+          <UserTable users={data?.data?.data} />
+        </div>
       </div>
-      <div className="overflow-y-scroll h-[800px]">
-        <UserTable users={data?.data?.data} />
-      </div>
-    </div>
+    </>
   );
 }

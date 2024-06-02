@@ -1,7 +1,12 @@
+import MetaData from "@/components/MetaData";
+
 export default function UserPaymentHistory() {
   return (
-    <div>
-      <h1>User Payment History</h1>
-    </div>
+    <>
+      <MetaData title="User Dashboard | Payment History" />
+      <div>
+        <h1>User Payment History</h1>
+      </div>
+    </>
   );
 }

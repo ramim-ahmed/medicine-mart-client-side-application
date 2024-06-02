@@ -1,9 +1,10 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import logo from "../assets/navLogo.png";
 import { RiMenuFoldLine } from "react-icons/ri";
 import { RiShoppingBasket2Line } from "react-icons/ri";
 import useAuth from "@/hooks/useAuth";
 import UserProfile from "./UserProfile";
+import { Button } from "./ui/button";
 
 export default function Nav() {
   const { authUser } = useAuth();
@@ -19,9 +20,30 @@ export default function Nav() {
           <div className="flex items-center space-x-4">
             <div className="hidden lg:block">
               <ul className="flex items-center space-x-6">
-                <li>Home</li>
-                <li>Shop</li>
-                <li>Language</li>
+                <li>
+                  <NavLink
+                    to="/"
+                    className={({ isActive }) =>
+                      isActive
+                        ? "text-themeColor border-b-2 border-themeColor"
+                        : ""
+                    }
+                  >
+                    Home
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/shop"
+                    className={({ isActive }) =>
+                      isActive
+                        ? "text-themeColor border-b-2 border-themeColor"
+                        : ""
+                    }
+                  >
+                    Shop
+                  </NavLink>
+                </li>
               </ul>
             </div>
             <div className="flex items-center space-x-3">
@@ -32,9 +54,7 @@ export default function Nav() {
               ) : (
                 <div>
                   <Link to="/login">
-                    <button className="bg-themeColor text-white rounded-3xl px-5 py-0.5">
-                      Join US
-                    </button>
+                    <Button variant="outline">Join US</Button>
                   </Link>
                 </div>
               )}

@@ -55,7 +55,7 @@ export default function AdminSidebar() {
             </div>
             <div>
               <NavLink
-                to="sale-report"
+                to="sales-report"
                 className={({ isActive }) =>
                   isActive ? "text-themeColor font-bold border-b" : ""
                 }
@@ -140,7 +140,7 @@ export default function AdminSidebar() {
                 <div>
                   <SheetClose asChild>
                     <NavLink
-                      to="sale-report"
+                      to="sales-report"
                       className={({ isActive }) =>
                         isActive ? "text-themeColor font-bold border-b" : ""
                       }
