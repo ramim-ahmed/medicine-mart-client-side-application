@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import logo from "../../assets/logo.png";
 import useAuth from "@/hooks/useAuth";
 import { HiOutlineEye } from "react-icons/hi2";
@@ -12,9 +12,18 @@ import { uploadImage } from "@/api/utils";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import SocialAuth from "../SocialAuth";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 export default function RegisterForm() {
-  const { signup, firebaseError, authUser, loading } = useAuth();
+  const { signup, firebaseError } = useAuth();
+  const [loading, setLoading] = useState(false);
   const [isAgree, setIsAgree] = useState(false);
+  const [role, setRole] = useState("");
   const [imageFile, setImageFile] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -30,30 +39,35 @@ export default function RegisterForm() {
   const handleRegister = async (data) => {
     const { username, email, password, confirmPassword } = data;
     const validPassword = passwordValidator(password);
+    setLoading(true);
     if (!validPassword) {
+      setLoading(false);
       return toast.error(
         "password must be A Uppercase and A lowercase and min length six!"
       );
     }
     if (password !== confirmPassword) {
+      setLoading(false);
       return toast.error("password and confirm password not match!");
+    }
+    if (!role) {
+      setLoading(false);
+      return toast.error("please, choose your role!!");
     }
     if (isAgree) {
       try {
         const photo = await uploadImage(imageFile);
         //  step 2: call signup function
-        await signup(email, password, username, photo);
+        await signup(email, password, username, photo, role);
+        navigate(location?.state ? location?.state : "/");
+        setLoading(false);
         reset();
       } catch (error) {
         toast.error(error.message);
+        setLoading(false);
       }
     }
   };
-  useEffect(() => {
-    if (authUser) {
-      navigate(location?.state ? location?.state : "/");
-    }
-  }, [authUser, navigate, location]);
   return (
     <div className="bg-white p-5 border relative">
       <form onSubmit={handleSubmit(handleRegister)}>
@@ -82,11 +96,26 @@ export default function RegisterForm() {
           )}
         </div>
         <div className="relative mb-4">
-          <div className="flex items-center space-x-4">
+          <label>Photo</label>
+          <div className="flex mt-1 items-center space-x-4">
             <Input
               type="file"
               onChange={(e) => setImageFile(e.target.files[0])}
             />
+          </div>
+        </div>
+        <div className="relative mb-4">
+          <label>Select Role</label>
+          <div className=" mt-1">
+            <Select onValueChange={(value) => setRole(value)}>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select Typ Of Role" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="USER">USER</SelectItem>
+                <SelectItem value="SELLER">SELLER</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
         </div>
         <div className="relative mb-4">

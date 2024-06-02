@@ -7,8 +7,11 @@ import {
 import useAuth from "@/hooks/useAuth";
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
+import useRole from "@/hooks/useRole";
 export default function UserProfile() {
   const { authUser, logout } = useAuth();
+  const [role] = useRole();
+  console.log(role);
   return (
     <div>
       <DropdownMenu>
@@ -29,27 +32,33 @@ export default function UserProfile() {
               </Button>
             </DropdownMenuItem>
           </Link>
-          <Link to="/dashboard/admin">
-            <DropdownMenuItem>
-              <Button variant="outline" className="w-full">
-                Admin Dashboard
-              </Button>
-            </DropdownMenuItem>
-          </Link>
-          <Link to="/dashboard/seller">
-            <DropdownMenuItem>
-              <Button variant="outline" className="w-full">
-                Seller Dashboard
-              </Button>
-            </DropdownMenuItem>
-          </Link>
-          <Link to="/dashboard/user">
-            <DropdownMenuItem>
-              <Button variant="outline" className="w-full">
-                User Dashboard
-              </Button>
-            </DropdownMenuItem>
-          </Link>
+          {role === "ADMIN" && (
+            <Link to="/dashboard/admin">
+              <DropdownMenuItem>
+                <Button variant="outline" className="w-full">
+                  Admin Dashboard
+                </Button>
+              </DropdownMenuItem>
+            </Link>
+          )}
+          {role === "SELLER" && (
+            <Link to="/dashboard/seller">
+              <DropdownMenuItem>
+                <Button variant="outline" className="w-full">
+                  Seller Dashboard
+                </Button>
+              </DropdownMenuItem>
+            </Link>
+          )}
+          {role === "USER" && (
+            <Link to="/dashboard/user">
+              <DropdownMenuItem>
+                <Button variant="outline" className="w-full">
+                  User Dashboard
+                </Button>
+              </DropdownMenuItem>
+            </Link>
+          )}
           <DropdownMenuItem>
             <Button
               onClick={() => logout()}

@@ -57,7 +57,7 @@ export const categoriesData = [
       "https://res.cloudinary.com/dc68241xz/image/upload/v1717180654/medicine_voguui.png",
   },
   {
-    _id: 9,
+    _id: 10,
     name: "Nasal Spary",
     image:
       "https://res.cloudinary.com/dc68241xz/image/upload/v1717180654/medicine_voguui.png",
