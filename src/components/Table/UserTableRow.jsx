@@ -11,9 +11,39 @@ import { useState } from "react";
 import { Button } from "../ui/button";
 import { LiaEdit } from "react-icons/lia";
 import { TiDeleteOutline } from "react-icons/ti";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import useSecureApi from "@/hooks/useSecureApi";
+import toast from "react-hot-toast";
+import { CgSpinner } from "react-icons/cg";
 export default function UserTableRow({ user, idx }) {
+  const secureApi = useSecureApi();
+  const queryClient = useQueryClient();
+  const [loading, setLoading] = useState(false);
   const [roleEditable, setRoleEditable] = useState(false);
+  const [selectedRole, setSelectedRole] = useState("");
   const { photo, name, email, role } = user || {};
+  const { mutateAsync: changeUserRole } = useMutation({
+    mutationFn: async () =>
+      await secureApi.patch(`/users/change-role/${email}`, {
+        role: selectedRole,
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["users"]);
+    },
+  });
+  const userRoleHanlder = async () => {
+    setLoading(true);
+    try {
+      await changeUserRole();
+      toast.success("Role Change Successfully!!");
+      setRoleEditable(false);
+      setLoading(false);
+    } catch (error) {
+      toast.error("Role Change Failed!!");
+      setRoleEditable(false);
+      setLoading(false);
+    }
+  };
   return (
     <TableRow>
       <TableCell>{idx + 1}</TableCell>
@@ -43,7 +73,10 @@ export default function UserTableRow({ user, idx }) {
         )}
         {roleEditable && (
           <div className="flex items-center space-x-3">
-            <Select defaultValue={role}>
+            <Select
+              defaultValue={role}
+              onValueChange={(value) => setSelectedRole(value)}
+            >
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Select Role" />
               </SelectTrigger>
@@ -53,7 +86,9 @@ export default function UserTableRow({ user, idx }) {
                 <SelectItem value="ADMIN">ADMIN</SelectItem>
               </SelectContent>
             </Select>
-            <Button variant="outline">Change Role</Button>
+            <Button onClick={() => userRoleHanlder()} variant="outline">
+              {loading ? <CgSpinner className="w-4 h-4" /> : "Change Role"}
+            </Button>
             <Button
               onClick={() => setRoleEditable(false)}
               variant="outline"
