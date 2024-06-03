@@ -2,7 +2,7 @@ import { Button } from "../ui/button";
 import { TableCell, TableRow } from "../ui/table";
 import { FiEye } from "react-icons/fi";
 import PropTypes from "prop-types";
-export default function MedicineTableRow({ item, idx }) {
+export default function MedicineTableRow({ item, idx, seller }) {
   const { image, name, genericName, massUnit, unitPrice, company, category } =
     item || {};
   return (
@@ -21,12 +21,14 @@ export default function MedicineTableRow({ item, idx }) {
       <TableCell>{category?.name}</TableCell>
       <TableCell>$ {unitPrice}</TableCell>
       <TableCell>
-        <div className="flex items-center space-x-3">
-          <Button variant="outline" type="button" size="icon">
-            <FiEye className="h-6 w-6" />
-          </Button>
-          <Button variant="outline">Select</Button>
-        </div>
+        {!seller ? (
+          <div className="flex items-center space-x-3">
+            <Button variant="outline" type="button" size="icon">
+              <FiEye className="h-6 w-6" />
+            </Button>
+            <Button variant="outline">Select</Button>
+          </div>
+        ) : null}
       </TableCell>
     </TableRow>
   );
@@ -35,4 +37,5 @@ export default function MedicineTableRow({ item, idx }) {
 MedicineTableRow.propTypes = {
   item: PropTypes.object,
   idx: PropTypes.number,
+  seller: PropTypes.bool,
 };

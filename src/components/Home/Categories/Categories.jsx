@@ -1,7 +1,14 @@
-import { categoriesData } from "./CategoriesData";
+import { useQuery } from "@tanstack/react-query";
 import Category from "./Category";
+import useBaseApi from "@/hooks/useBaseApi";
+import Spinner from "@/components/Spinner";
 
 export default function Categories() {
+  const baseApi = useBaseApi();
+  const { data, isLoading } = useQuery({
+    queryKey: ["categories"],
+    queryFn: async () => await baseApi.get("/categories"),
+  });
   return (
     <div className="pt-16">
       <div className="max-w-7xl mx-auto px-3">
@@ -11,11 +18,17 @@ export default function Categories() {
             <div className="border-b-2 border-themeColor w-44"></div>
           </div>
         </div>
-        <div className="grid grid-cols-5 pt-10">
-          {categoriesData.map((item) => (
-            <Category key={item._id} item={item} />
-          ))}
-        </div>
+        {isLoading ? (
+          <div className="flex justify-center">
+            <Spinner />
+          </div>
+        ) : (
+          <div className="grid grid-cols-5 pt-10">
+            {data?.data?.data.map((item) => (
+              <Category key={item._id} item={item} />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,7 +1,6 @@
 import MetaData from "@/components/MetaData";
 import CategoriesTable from "@/components/Table/CategoriesTable";
 import { Button } from "@/components/ui/button";
-import useSecureApi from "@/hooks/useSecureApi";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { CgSpinner } from "react-icons/cg";
 import {
@@ -18,16 +17,19 @@ import { uploadImage } from "@/api/utils";
 import toast from "react-hot-toast";
 import Spinner from "@/components/Spinner";
 import { TiDeleteOutline } from "react-icons/ti";
+import useBaseApi from "@/hooks/useBaseApi";
+import useSecureApi from "@/hooks/useSecureApi";
 export default function Categories() {
   const queryClient = useQueryClient();
   const [name, setName] = useState("");
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [imageFile, setImageFile] = useState("");
+  const baseApi = useBaseApi();
   const secureApi = useSecureApi();
   const { data, isLoading } = useQuery({
     queryKey: ["categories"],
-    queryFn: async () => await secureApi.get("/categories"),
+    queryFn: async () => await baseApi.get("/categories"),
   });
 
   const { mutateAsync: addNewCategory } = useMutation({
