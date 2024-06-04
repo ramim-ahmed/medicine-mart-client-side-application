@@ -5,6 +5,7 @@ import UserDashboardLayout from "@/Layouts/UserDashboardLayout";
 import Login from "@/pages/Auth/Login/Login";
 import Register from "@/pages/Auth/Register/Register";
 import Cart from "@/pages/Cart/Cart";
+import CategoriesProducts from "@/pages/CategoriesProducts/CategoriesProducts";
 import AdminHome from "@/pages/Dashboard/Admin/AdminHome";
 import BannerAdvertisement from "@/pages/Dashboard/Admin/BannerAdvertisement";
 import Categories from "@/pages/Dashboard/Admin/Categories";
@@ -34,6 +35,10 @@ const routes = createBrowserRouter([
       {
         path: "/shop",
         element: <Shop />,
+      },
+      {
+        path: "/:category/:id",
+        element: <CategoriesProducts />,
       },
       {
         path: "my-cart",

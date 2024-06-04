@@ -1,15 +1,18 @@
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 export default function Category({ item }) {
-  const { name, photo } = item || {};
+  const { _id, name, photo } = item || {};
   return (
-    <div className="bg-white cursor-pointer flex justify-center border p-5 border-opacity-20">
-      <div>
+    <Link to={`/${name}/${_id}`}>
+      <div className="bg-white cursor-pointer flex justify-center border p-5 border-opacity-20">
         <div>
-          <img className="w-24" src={photo} alt="" />
+          <div>
+            <img className="w-24" src={photo} alt="" />
+          </div>
+          <h1 className="text-center text-lg mt-2 font-medium">{name}</h1>
         </div>
-        <h1 className="text-center text-lg mt-2 font-medium">{name}</h1>
       </div>
-    </div>
+    </Link>
   );
 }
 
