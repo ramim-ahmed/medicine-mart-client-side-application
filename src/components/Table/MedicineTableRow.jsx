@@ -2,7 +2,12 @@ import { Button } from "../ui/button";
 import { TableCell, TableRow } from "../ui/table";
 import { FiEye } from "react-icons/fi";
 import PropTypes from "prop-types";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { useState } from "react";
+import { TiDeleteOutline } from "react-icons/ti";
+import MedicineDetails from "../MedicineDetails";
 export default function MedicineTableRow({ item, idx, seller }) {
+  const [open, setOpen] = useState(false);
   const { image, name, genericName, massUnit, unitPrice, company, category } =
     item || {};
   return (
@@ -23,9 +28,26 @@ export default function MedicineTableRow({ item, idx, seller }) {
       <TableCell>
         {!seller ? (
           <div className="flex items-center space-x-3">
-            <Button variant="outline" type="button" size="icon">
-              <FiEye className="h-6 w-6" />
-            </Button>
+            <Dialog open={open}>
+              <DialogTrigger onClick={() => setOpen(true)}>
+                <Button variant="outline" type="button" size="icon">
+                  <FiEye className="h-6 w-6" />
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-4xl">
+                <MedicineDetails item={item} />
+                <div className="flex justify-end">
+                  <Button
+                    onClick={() => setOpen(false)}
+                    variant="outline"
+                    type="button"
+                    size="icon"
+                  >
+                    <TiDeleteOutline className="h-6 w-6" />
+                  </Button>
+                </div>
+              </DialogContent>
+            </Dialog>
             <Button variant="outline">Select</Button>
           </div>
         ) : null}

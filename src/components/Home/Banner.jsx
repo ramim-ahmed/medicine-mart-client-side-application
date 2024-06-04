@@ -25,6 +25,7 @@ export default function Banner() {
   return (
     <div className="max-w-7xl mx-auto px-3 pt-10">
       <Swiper
+        speed={1200}
         loop={true}
         navigation={true}
         modules={[Navigation]}
