@@ -37,7 +37,7 @@ export default function MedicineManage() {
               <Spinner />
             </div>
           ) : (
-            <MedicineListsTable medicines={data?.data?.data} seller />
+            <MedicineListsTable medicines={data?.data?.data} isSeller />
           )}
         </div>
       </div>

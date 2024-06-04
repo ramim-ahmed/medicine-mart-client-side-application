@@ -21,6 +21,7 @@ import UserPaymentHistory from "@/pages/Dashboard/User/UserPaymentHistory";
 import Home from "@/pages/Home/Home";
 import NotFound from "@/pages/NotFound/NotFound";
 import Shop from "@/pages/Shop/Shop";
+import UpdateProofile from "@/pages/UpdateProfile/UpdateProofile";
 import { createBrowserRouter } from "react-router-dom";
 const routes = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ const routes = createBrowserRouter([
       {
         path: "/shop",
         element: <Shop />,
+      },
+      {
+        path: "/update-profile",
+        element: <UpdateProofile />,
       },
       {
         path: "/:category/:id",

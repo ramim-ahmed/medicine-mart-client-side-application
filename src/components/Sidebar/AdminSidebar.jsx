@@ -85,13 +85,19 @@ export default function AdminSidebar() {
             </div>
           </div>
         </div>
-        <div className="hidden lg:block px-5 pb-5 space-y-3">
-          <Button variant="outline" className="w-full">
-            Profile
-          </Button>
-          <Button variant="outline" className="w-full">
-            Logout
-          </Button>
+        <div className="hidden lg:block px-5 pb-5 space-y-3 w-full">
+          <div>
+            <Link to="/">
+              <Button variant="outline" className="w-full">
+                Home
+              </Button>
+            </Link>
+          </div>
+          <div>
+            <Button variant="outline" className="w-full">
+              Logout
+            </Button>
+          </div>
         </div>
         <div className="lg:hidden block">
           <Sheet>

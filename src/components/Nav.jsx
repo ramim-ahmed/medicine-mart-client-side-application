@@ -5,9 +5,18 @@ import { RiShoppingBasket2Line } from "react-icons/ri";
 import useAuth from "@/hooks/useAuth";
 import UserProfile from "./UserProfile";
 import { Button } from "./ui/button";
+import { useQuery } from "@tanstack/react-query";
+import useBaseApi from "@/hooks/useBaseApi";
+import Spinner from "./Spinner";
+import useCart from "@/hooks/useCart";
 
 export default function Nav() {
   const { authUser } = useAuth();
+  const [data, isLoading] = useCart();
+  if (isLoading) {
+    return <Spinner />;
+  }
+  console.log(data);
   return (
     <nav className="py-3 border-b">
       <div className="max-w-7xl px-3 mx-auto">
@@ -58,12 +67,20 @@ export default function Nav() {
                   </Link>
                 </div>
               )}
-              <div className="relative">
-                <RiShoppingBasket2Line className="w-7 h-7" />
-                <p className="bg-themeColor rounded-full absolute -right-2 -top-1 text-white font-semibold w-5 h-5 flex items-center justify-center">
-                  <span className="text-sm">0</span>
-                </p>
-              </div>
+              <Link to="/my-cart">
+                <div className="relative cursor-pointer">
+                  <RiShoppingBasket2Line className="w-7 h-7" />
+                  <p className="bg-themeColor rounded-full absolute -right-2 -top-1 text-white font-semibold w-5 h-5 flex items-center justify-center">
+                    {isLoading ? (
+                      <Spinner />
+                    ) : (
+                      <span className="text-sm">
+                        {data?.data?.data?.length}
+                      </span>
+                    )}
+                  </p>
+                </div>
+              </Link>
               <div className="lg:hidden block">
                 <RiMenuFoldLine className="h-7 w-7" />
               </div>

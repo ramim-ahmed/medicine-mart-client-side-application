@@ -1,15 +1,61 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-undef */
 import { Button } from "../ui/button";
 import { TableCell, TableRow } from "../ui/table";
 import { FiEye } from "react-icons/fi";
 import PropTypes from "prop-types";
+import { HiDotsVertical } from "react-icons/hi";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { useState } from "react";
 import { TiDeleteOutline } from "react-icons/ti";
 import MedicineDetails from "../MedicineDetails";
-export default function MedicineTableRow({ item, idx, seller }) {
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import useBaseApi from "@/hooks/useBaseApi";
+import useAuth from "@/hooks/useAuth";
+import toast from "react-hot-toast";
+export default function MedicineTableRow({ item, idx, isSeller }) {
+  const baseApi = useBaseApi();
+  const { authUser } = useAuth();
+  const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
   const { image, name, genericName, massUnit, unitPrice, company, category } =
     item || {};
+
+  const { mutateAsync: addToCart } = useMutation({
+    mutationFn: async (data) => {
+      const res = await baseApi.post("/carts/create-new", data);
+      if (!res.data?.data) {
+        toast.error("Already Product Added To Cart!!");
+      } else {
+        toast.success("Product Added To Cart!!");
+      }
+    },
+    onSuccess: () => queryClient.invalidateQueries(["my-carts"]),
+  });
+
+  const handleAddToCart = async ({
+    _id,
+    id,
+    __v,
+    company,
+    category,
+    createdAt,
+    updatedAt,
+    ...res
+  } = product) => {
+    try {
+      const newData = {
+        email: authUser?.email,
+        productId: _id,
+        company: company?._id,
+        category: category?._id,
+        ...res,
+      };
+      await addToCart(newData);
+    } catch (error) {
+      toast.error("Product Add To Cart Failed!!");
+    }
+  };
   return (
     <TableRow>
       <TableCell>{idx + 1}</TableCell>
@@ -26,7 +72,7 @@ export default function MedicineTableRow({ item, idx, seller }) {
       <TableCell>{category?.name}</TableCell>
       <TableCell>$ {unitPrice}</TableCell>
       <TableCell>
-        {!seller ? (
+        {!isSeller ? (
           <div className="flex items-center space-x-3">
             <Dialog open={open}>
               <DialogTrigger onClick={() => setOpen(true)}>
@@ -48,9 +94,15 @@ export default function MedicineTableRow({ item, idx, seller }) {
                 </div>
               </DialogContent>
             </Dialog>
-            <Button variant="outline">Select</Button>
+            <Button onClick={() => handleAddToCart(item)} variant="outline">
+              Select
+            </Button>
           </div>
-        ) : null}
+        ) : (
+          <Button variant="outline" size="icon">
+            <HiDotsVertical className="h-4 w-4" />
+          </Button>
+        )}
       </TableCell>
     </TableRow>
   );
@@ -59,5 +111,5 @@ export default function MedicineTableRow({ item, idx, seller }) {
 MedicineTableRow.propTypes = {
   item: PropTypes.object,
   idx: PropTypes.number,
-  seller: PropTypes.bool,
+  isSeller: PropTypes.bool,
 };

@@ -33,7 +33,7 @@ export default function Banner() {
       >
         {data?.data?.data?.map((item) => (
           <SwiperSlide key={item._id}>
-            <div className="bg-gradient-to-r from-gray-50 to-white flex justify-between p-20 w-full border">
+            <div className="bg-gradient-to-r from-gray-50 to-white flex justify-between p-20 w-full rounded-xl border">
               <div className="w-1/2 space-y-3">
                 <div>
                   <h1 className="text-3xl font-bold">{item.name}</h1>

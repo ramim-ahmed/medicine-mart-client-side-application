@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/table";
 import MedicineTableRow from "./MedicineTableRow";
 import PropTypes from "prop-types";
-export default function MedicineListsTable({ medicines, seller }) {
+export default function MedicineListsTable({ medicines, isSeller }) {
   return (
     <div>
       <Table>
@@ -20,7 +20,7 @@ export default function MedicineListsTable({ medicines, seller }) {
             <TableHead>Company</TableHead>
             <TableHead>Category</TableHead>
             <TableHead>Unit Price</TableHead>
-            {!seller ? <TableHead>Action</TableHead> : null}
+            <TableHead>Action</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -29,7 +29,7 @@ export default function MedicineListsTable({ medicines, seller }) {
               key={item._id}
               idx={idx}
               item={item}
-              seller={seller}
+              isSeller={isSeller}
             />
           ))}
         </TableBody>
@@ -40,5 +40,5 @@ export default function MedicineListsTable({ medicines, seller }) {
 
 MedicineListsTable.propTypes = {
   medicines: PropTypes.array,
-  seller: PropTypes.bool,
+  isSeller: PropTypes.bool,
 };
