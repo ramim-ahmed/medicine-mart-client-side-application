@@ -54,6 +54,10 @@ const routes = createBrowserRouter([
         path: "/checkout",
         element: <Checkout />,
       },
+      {
+        path: "/invoice-page",
+        element: <Checkout />,
+      },
     ],
   },
   {

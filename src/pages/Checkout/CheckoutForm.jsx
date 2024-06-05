@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Button } from "@/components/ui/button";
 import useAuth from "@/hooks/useAuth";
 import useCart from "@/hooks/useCart";
@@ -7,6 +8,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import PropTypes from "prop-types";
+import toast from "react-hot-toast";
 export default function CheckoutForm({ shippingInfo }) {
   const [error, setError] = useState("");
   const [clientSecret, setClientSecret] = useState("");
@@ -25,9 +27,9 @@ export default function CheckoutForm({ shippingInfo }) {
   useEffect(() => {
     if (grandTotal > 0) {
       secureApi
-        .post("/create-payment-intent", { price: grandTotal })
+        .post("/payments/create-payment-intent", { price: grandTotal })
         .then((res) => {
-          console.log(res.data.clientSecret);
+          console.log(res.data.clientSecret, "client-secret");
           setClientSecret(res.data.clientSecret);
         });
     }
@@ -35,7 +37,6 @@ export default function CheckoutForm({ shippingInfo }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     if (!stripe || !elements) {
       return;
     }
@@ -77,54 +78,56 @@ export default function CheckoutForm({ shippingInfo }) {
       if (paymentIntent.status === "succeeded") {
         console.log("transaction id", paymentIntent.id);
         setTransactionId(paymentIntent.id);
-        // sales
-        const orders = {
-          transactionId: paymentIntent.id,
-          user: {
-            name: authUser?.displayName,
-            email: authUser?.email,
-          },
-          shippingInfo,
-          products: data?.data?.data,
-          grandTotal,
-        };
+        try {
+          // sales
+          const ids = data?.data?.data?.map((item) => item.productId);
+          const orders = {
+            transactionId: paymentIntent?.id,
+            user: {
+              name: authUser?.displayName,
+              email: authUser?.email,
+            },
+            shippingInfo,
+            products: data?.data?.data?.map(
+              ({ _id, id, createdAt, updatedAt, __v, ...res }) => {
+                return {
+                  ...res,
+                };
+              }
+            ),
+            grandTotal,
+          };
 
-        const orderRes = await secureApi.post("/orders", orders);
-        // now save the payment in the database
-        const payment = {
-          orderId: orderRes?._id,
-          user: {
-            name: authUser?.displayName,
-            email: authUser?.email,
-          },
-          price: grandTotal,
-          transactionId: paymentIntent.id,
-          date: new Date(), // utc date convert. use moment js to
-          productIds: data?.data?.data.map((item) => {
-            return {
-              productId: item.productId,
-              quantity: item.quantity,
-            };
-          }),
-          status: "pending",
-        };
+          const orderRes = await secureApi.post("/orders/create-new", orders);
+          // now save the payment in the database
+          const payment = {
+            orderId: orderRes?.data?._id,
+            user: {
+              name: authUser?.displayName,
+              email: authUser?.email,
+            },
+            price: grandTotal,
+            transactionId: paymentIntent.id,
+            productIds: data?.data?.data.map((item) => {
+              return {
+                productId: item.productId,
+                quantity: item.quantity,
+              };
+            }),
+          };
 
-        const res = await secureApi.post("/payments", payment);
-        console.log("payment saved", res.data);
-        refetch();
-        if (res.data?.paymentResult?.insertedId) {
-          Swal.fire({
-            position: "top-end",
-            icon: "success",
-            title: "Thank you for payment",
-            showConfirmButton: false,
-            timer: 1500,
-          });
+          await secureApi.post("/payments/create-new", payment);
           navigate("/invoice-page");
+          toast.success("Order Placed Successfully!!");
+          refetch();
+        } catch (error) {
+          toast.error("Orders Placed Failed!!");
+          console.log(error);
         }
       }
     }
   };
+
   return (
     <form onSubmit={handleSubmit}>
       <CardElement

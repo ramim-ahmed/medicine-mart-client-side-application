@@ -6,19 +6,20 @@ import useAuth from "@/hooks/useAuth";
 import useCart from "@/hooks/useCart";
 import { useState } from "react";
 const stripePromise = loadStripe(import.meta.env.VITE_Payment_Gateway_PK);
+
 export default function Checkout() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const { authUser } = useAuth();
+  const [name, setName] = useState(authUser?.displayName);
+  const [email, setEmail] = useState(authUser?.email);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [address, setAddress] = useState("");
-  const { authUser } = useAuth();
   const [data] = useCart();
   const grandTotal = data?.data?.data?.reduce((total, current) => {
     return total + current.unitPrice * current.quantity;
   }, 0);
   const shippingInfo = {
-    name,
-    email,
+    name: name || authUser?.displayName,
+    email: email || authUser?.email,
     phoneNumber,
     address,
   };
