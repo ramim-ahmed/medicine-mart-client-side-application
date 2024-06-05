@@ -5,8 +5,6 @@ import { RiShoppingBasket2Line } from "react-icons/ri";
 import useAuth from "@/hooks/useAuth";
 import UserProfile from "./UserProfile";
 import { Button } from "./ui/button";
-import { useQuery } from "@tanstack/react-query";
-import useBaseApi from "@/hooks/useBaseApi";
 import Spinner from "./Spinner";
 import useCart from "@/hooks/useCart";
 
@@ -16,7 +14,6 @@ export default function Nav() {
   if (isLoading) {
     return <Spinner />;
   }
-  console.log(data);
   return (
     <nav className="py-3 border-b">
       <div className="max-w-7xl px-3 mx-auto">

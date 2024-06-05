@@ -6,6 +6,7 @@ import Login from "@/pages/Auth/Login/Login";
 import Register from "@/pages/Auth/Register/Register";
 import Cart from "@/pages/Cart/Cart";
 import CategoriesProducts from "@/pages/CategoriesProducts/CategoriesProducts";
+import Checkout from "@/pages/Checkout/Checkout";
 import AdminHome from "@/pages/Dashboard/Admin/AdminHome";
 import BannerAdvertisement from "@/pages/Dashboard/Admin/BannerAdvertisement";
 import Categories from "@/pages/Dashboard/Admin/Categories";
@@ -46,8 +47,12 @@ const routes = createBrowserRouter([
         element: <CategoriesProducts />,
       },
       {
-        path: "my-cart",
+        path: "/my-cart",
         element: <Cart />,
+      },
+      {
+        path: "/checkout",
+        element: <Checkout />,
       },
     ],
   },

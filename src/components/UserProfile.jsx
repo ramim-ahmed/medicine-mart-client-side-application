@@ -11,7 +11,6 @@ import useRole from "@/hooks/useRole";
 export default function UserProfile() {
   const { authUser, logout } = useAuth();
   const [role] = useRole();
-  console.log(role);
   return (
     <div>
       <DropdownMenu>

@@ -13,8 +13,11 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import useBaseApi from "@/hooks/useBaseApi";
 import useAuth from "@/hooks/useAuth";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import useSecureApi from "@/hooks/useSecureApi";
 export default function MedicineTableRow({ item, idx, isSeller }) {
-  const baseApi = useBaseApi();
+  const navigate = useNavigate();
+  const secureApi = useSecureApi();
   const { authUser } = useAuth();
   const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
@@ -23,7 +26,7 @@ export default function MedicineTableRow({ item, idx, isSeller }) {
 
   const { mutateAsync: addToCart } = useMutation({
     mutationFn: async (data) => {
-      const res = await baseApi.post("/carts/create-new", data);
+      const res = await secureApi.post("/carts/create-new", data);
       if (!res.data?.data) {
         toast.error("Already Product Added To Cart!!");
       } else {
@@ -43,6 +46,9 @@ export default function MedicineTableRow({ item, idx, isSeller }) {
     updatedAt,
     ...res
   } = product) => {
+    if (!authUser) {
+      return navigate("/login");
+    }
     try {
       const newData = {
         email: authUser?.email,

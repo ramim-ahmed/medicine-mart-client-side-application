@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState } from "react";
 import { Switch } from "../ui/switch";
 import { TableCell, TableRow } from "../ui/table";
@@ -5,9 +6,6 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import useSecureApi from "@/hooks/useSecureApi";
 import PropTypes from "prop-types";
 import toast from "react-hot-toast";
-import useBaseApi from "@/hooks/useBaseApi";
-import Spinner from "../Spinner";
-import { Button } from "../ui/button";
 export default function BannerTableRow({ item, idx }) {
   const [loading, setLoading] = useState(false);
   const { _id, seller, name, image, genericName, company, status } = item || {};

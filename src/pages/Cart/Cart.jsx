@@ -15,15 +15,59 @@ import Spinner from "@/components/Spinner";
 import { GrDocumentMissing } from "react-icons/gr";
 import { Link } from "react-router-dom";
 import { PiPlusCircleBold } from "react-icons/pi";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import useSecureApi from "@/hooks/useSecureApi";
+import toast from "react-hot-toast";
 export default function Cart() {
   const [data, isLoading] = useCart();
+  const secureApi = useSecureApi();
+  const queryClient = useQueryClient();
+  const { mutateAsync: deleteCartItem } = useMutation({
+    mutationFn: async (productId) =>
+      await secureApi.delete(`/carts/cart-item/${productId}`),
+    onSuccess: () => queryClient.invalidateQueries(["my-carts"]),
+  });
+
+  const { mutateAsync: incrementQuantity } = useMutation({
+    mutationFn: async (productId) =>
+      await secureApi.patch(`/carts/increment/${productId}`),
+    onSuccess: () => queryClient.invalidateQueries(["my-carts"]),
+  });
+
+  const { mutateAsync: decrementQuantity } = useMutation({
+    mutationFn: async (productId) =>
+      await secureApi.patch(`/carts/decrement/${productId}`),
+    onSuccess: () => queryClient.invalidateQueries(["my-carts"]),
+  });
+
+  const handleDeleteCartItem = async (productId) => {
+    try {
+      await deleteCartItem(productId);
+      toast.success("Product Deleted From Cart!!");
+    } catch (error) {
+      toast.error("Product Deleted From Cart!!");
+    }
+  };
+
+  const handleIncrementQuantity = async (productId) => {
+    await incrementQuantity(productId);
+  };
+  const handleDecrementQuantity = async (productId) => {
+    await decrementQuantity(productId);
+  };
+
+  const grandTotal = data?.data?.data?.reduce((total, current) => {
+    return total + current.unitPrice * current.quantity;
+  }, 0);
+
   return (
     <>
       <MetaData title="Medicine Mart | My Cart" />
       <div className="max-w-4xl py-10 mx-auto px-3">
         <div>
-          <div>
+          <div className="flex justify-between">
             <Button variant="outline">My Shopping Cart</Button>
+            <Button variant="outline">Clear Cart</Button>
           </div>
           <div className="mt-3 bg-white">
             {isLoading ? (
@@ -46,7 +90,10 @@ export default function Cart() {
                   </TableHeader>
                   <TableBody>
                     {data?.data?.data?.map(
-                      ({ _id, name, company, unitPrice, quantity }, idx) => (
+                      (
+                        { _id, name, productId, company, unitPrice, quantity },
+                        idx
+                      ) => (
                         <TableRow key={_id}>
                           <TableCell>{idx + 1}</TableCell>
                           <TableCell>{name}</TableCell>
@@ -54,18 +101,34 @@ export default function Cart() {
                           <TableCell>${unitPrice}</TableCell>
                           <TableCell>
                             <div className="flex items-center space-x-2">
-                              <Button variant="outline" size="icon">
+                              <Button
+                                onClick={() =>
+                                  handleDecrementQuantity(productId)
+                                }
+                                variant="outline"
+                                size="icon"
+                              >
                                 <HiOutlineMinusCircle className="h-4 w-4" />
                               </Button>
                               <p>{quantity}</p>
-                              <Button variant="outline" size="icon">
+                              <Button
+                                onClick={() =>
+                                  handleIncrementQuantity(productId)
+                                }
+                                variant="outline"
+                                size="icon"
+                              >
                                 <PiPlusCircleBold className="h-4 w-4" />
                               </Button>
                             </div>
                           </TableCell>
-                          <TableCell>${unitPrice}</TableCell>
+                          <TableCell>${unitPrice * quantity}</TableCell>
                           <TableCell>
-                            <Button variant="outline" size="icon">
+                            <Button
+                              onClick={() => handleDeleteCartItem(productId)}
+                              variant="outline"
+                              size="icon"
+                            >
                               <TiDeleteOutline className="h-4 w-4" />
                             </Button>
                           </TableCell>
@@ -77,12 +140,14 @@ export default function Cart() {
                 <div className="flex justify-end mt-4 pr-10 pb-4">
                   <div className="space-y-3">
                     <div>
-                      <h3 className="text-end">Grand Total : $102</h3>
+                      <h3 className="text-end">Grand Total : ${grandTotal}</h3>
                     </div>
                     <div>
-                      <Button variant="outline" className="w-36">
-                        Checkout
-                      </Button>
+                      <Link to="/checkout">
+                        <Button variant="outline" className="w-36">
+                          Checkout
+                        </Button>
+                      </Link>
                     </div>
                   </div>
                 </div>
