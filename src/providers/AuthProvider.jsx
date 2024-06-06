@@ -50,11 +50,9 @@ export default function AuthProvider({ children }) {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       toast.success("Login successfully!");
-      setLoading(false);
     } catch (error) {
       setFirebaseLoginError(error.message);
       toast.error(error?.message);
-      setLoading(false);
     }
   };
   // google auth

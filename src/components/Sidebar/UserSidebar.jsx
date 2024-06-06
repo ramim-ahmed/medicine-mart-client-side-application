@@ -31,17 +31,7 @@ export default function UserSidebar() {
                   isActive ? "text-themeColor font-bold border-b" : ""
                 }
               >
-                <p className="font-semibold">My Queries</p>
-              </NavLink>
-            </div>
-            <div>
-              <NavLink
-                to="payment-history"
-                className={({ isActive }) =>
-                  isActive ? "text-themeColor font-bold border-b " : ""
-                }
-              >
-                <p className="font-semibold">Payment History</p>
+                <p className="font-semibold">Payments History</p>
               </NavLink>
             </div>
           </div>
@@ -67,19 +57,6 @@ export default function UserSidebar() {
             </SheetTrigger>
             <SheetContent>
               <div className="space-y-4">
-                <div>
-                  <SheetClose asChild>
-                    <NavLink
-                      to="/dashboard/user"
-                      end
-                      className={({ isActive }) =>
-                        isActive ? "text-themeColor font-bold border-b" : ""
-                      }
-                    >
-                      <p className="font-semibold">My Queries</p>
-                    </NavLink>
-                  </SheetClose>
-                </div>
                 <div>
                   <SheetClose asChild>
                     <NavLink

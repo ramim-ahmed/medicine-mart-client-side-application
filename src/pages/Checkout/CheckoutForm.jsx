@@ -6,7 +6,6 @@ import useSecureApi from "@/hooks/useSecureApi";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
 import PropTypes from "prop-types";
 import toast from "react-hot-toast";
 export default function CheckoutForm({ shippingInfo }) {
@@ -37,6 +36,7 @@ export default function CheckoutForm({ shippingInfo }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
     if (!stripe || !elements) {
       return;
     }
@@ -55,7 +55,6 @@ export default function CheckoutForm({ shippingInfo }) {
     if (error) {
       setError(error.message);
     } else {
-      console.log("payment method", paymentMethod);
       setError("");
     }
 
@@ -72,15 +71,12 @@ export default function CheckoutForm({ shippingInfo }) {
       });
 
     if (confirmError) {
-      console.log("confirm error");
+      toast.error("confirm error");
     } else {
-      console.log("payment intent", paymentIntent);
       if (paymentIntent.status === "succeeded") {
-        console.log("transaction id", paymentIntent.id);
         setTransactionId(paymentIntent.id);
+        // sales
         try {
-          // sales
-          const ids = data?.data?.data?.map((item) => item.productId);
           const orders = {
             transactionId: paymentIntent?.id,
             user: {
@@ -99,9 +95,10 @@ export default function CheckoutForm({ shippingInfo }) {
           };
 
           const orderRes = await secureApi.post("/orders/create-new", orders);
+          console.log(orderRes);
           // now save the payment in the database
           const payment = {
-            orderId: orderRes?.data?._id,
+            orderId: orderRes?.data?.data._id,
             user: {
               name: authUser?.displayName,
               email: authUser?.email,
@@ -117,12 +114,11 @@ export default function CheckoutForm({ shippingInfo }) {
           };
 
           await secureApi.post("/payments/create-new", payment);
-          navigate("/invoice-page");
+          navigate(`/invoice-page/${orderRes.data?.data?._id}`);
           toast.success("Order Placed Successfully!!");
           refetch();
         } catch (error) {
           toast.error("Orders Placed Failed!!");
-          console.log(error);
         }
       }
     }

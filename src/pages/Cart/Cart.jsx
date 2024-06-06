@@ -18,31 +18,39 @@ import { PiPlusCircleBold } from "react-icons/pi";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import useSecureApi from "@/hooks/useSecureApi";
 import toast from "react-hot-toast";
+import useAuth from "@/hooks/useAuth";
 export default function Cart() {
   const [data, isLoading] = useCart();
   const secureApi = useSecureApi();
   const queryClient = useQueryClient();
+  const { authUser } = useAuth();
+  const { mutateAsync: clearItemCart } = useMutation({
+    mutationFn: async () => await secureApi.delete("/carts/clear-cart", data),
+    onSuccess: () => queryClient.invalidateQueries(["my-carts"]),
+  });
   const { mutateAsync: deleteCartItem } = useMutation({
-    mutationFn: async (productId) =>
-      await secureApi.delete(`/carts/cart-item/${productId}`),
+    mutationFn: async (data) =>
+      await secureApi.delete(`/carts/${data.productId}/${data?.email}`, data),
     onSuccess: () => queryClient.invalidateQueries(["my-carts"]),
   });
 
   const { mutateAsync: incrementQuantity } = useMutation({
-    mutationFn: async (productId) =>
-      await secureApi.patch(`/carts/increment/${productId}`),
+    mutationFn: async (data) => await secureApi.patch("/carts/increment", data),
     onSuccess: () => queryClient.invalidateQueries(["my-carts"]),
   });
 
   const { mutateAsync: decrementQuantity } = useMutation({
-    mutationFn: async (productId) =>
-      await secureApi.patch(`/carts/decrement/${productId}`),
+    mutationFn: async (data) => await secureApi.patch(`/carts/decrement`, data),
     onSuccess: () => queryClient.invalidateQueries(["my-carts"]),
   });
 
   const handleDeleteCartItem = async (productId) => {
     try {
-      await deleteCartItem(productId);
+      const data = {
+        productId,
+        email: authUser?.email,
+      };
+      await deleteCartItem(data);
       toast.success("Product Deleted From Cart!!");
     } catch (error) {
       toast.error("Product Deleted From Cart!!");
@@ -50,10 +58,27 @@ export default function Cart() {
   };
 
   const handleIncrementQuantity = async (productId) => {
-    await incrementQuantity(productId);
+    const data = {
+      productId,
+      email: authUser?.email,
+    };
+    await incrementQuantity(data);
   };
   const handleDecrementQuantity = async (productId) => {
-    await decrementQuantity(productId);
+    const data = {
+      productId,
+      email: authUser?.email,
+    };
+    await decrementQuantity(data);
+  };
+
+  const handleCleatItem = async () => {
+    try {
+      await clearItemCart();
+      toast.success("Clear Your Cart!!");
+    } catch (error) {
+      toast.error("Clear Your Cart Failed!!");
+    }
   };
 
   const grandTotal = data?.data?.data?.reduce((total, current) => {
@@ -67,7 +92,9 @@ export default function Cart() {
         <div>
           <div className="flex justify-between">
             <Button variant="outline">My Shopping Cart</Button>
-            <Button variant="outline">Clear Cart</Button>
+            <Button onClick={() => handleCleatItem()} variant="outline">
+              Clear Cart
+            </Button>
           </div>
           <div className="mt-3 bg-white">
             {isLoading ? (

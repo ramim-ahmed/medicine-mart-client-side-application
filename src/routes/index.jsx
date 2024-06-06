@@ -17,9 +17,9 @@ import AskForAdvertisement from "@/pages/Dashboard/Seller/AskForAdvertisement";
 import MedicineManage from "@/pages/Dashboard/Seller/MedicineManage";
 import PaymentHistory from "@/pages/Dashboard/Seller/PaymentHistory";
 import SellerHome from "@/pages/Dashboard/Seller/SellerHome";
-import MyQueries from "@/pages/Dashboard/User/MyQueries";
 import UserPaymentHistory from "@/pages/Dashboard/User/UserPaymentHistory";
 import Home from "@/pages/Home/Home";
+import Invoice from "@/pages/Invoice/Invoice";
 import NotFound from "@/pages/NotFound/NotFound";
 import Shop from "@/pages/Shop/Shop";
 import UpdateProofile from "@/pages/UpdateProfile/UpdateProofile";
@@ -55,8 +55,8 @@ const routes = createBrowserRouter([
         element: <Checkout />,
       },
       {
-        path: "/invoice-page",
-        element: <Checkout />,
+        path: "/invoice-page/:orderId",
+        element: <Invoice />,
       },
     ],
   },
@@ -118,10 +118,6 @@ const routes = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <MyQueries />,
-      },
-      {
-        path: "payment-history",
         element: <UserPaymentHistory />,
       },
     ],
