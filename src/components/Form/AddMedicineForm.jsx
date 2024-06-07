@@ -50,15 +50,19 @@ export default function AddMedicineForm({ setOpen }) {
   const handleNewMedicine = async (data) => {
     setLoading(true);
     if (!category) {
+      setLoading(false);
       return toast.error("Please Select Category!!");
     }
     if (!company) {
+      setLoading(false);
       return toast.error("Please Select company!!");
     }
     if (!massUnit) {
+      setLoading(false);
       return toast.error("Please Select Mass Unit!!");
     }
     if (!imageFile) {
+      setLoading(false);
       return toast.error("Please Select Image!!");
     }
     try {
@@ -77,7 +81,7 @@ export default function AddMedicineForm({ setOpen }) {
         massUnit,
         unitPrice: data?.unitPrice,
         description: data?.description,
-        discountParcentage: data?.discountParcentage || 0,
+        discountPercentage: data?.discountPercentage || 0,
       };
       await addNewMedicine(newData);
       toast.success("Medicine Successfully Added!!");

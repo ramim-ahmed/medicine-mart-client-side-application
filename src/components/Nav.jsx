@@ -7,6 +7,12 @@ import UserProfile from "./UserProfile";
 import { Button } from "./ui/button";
 import Spinner from "./Spinner";
 import useCart from "@/hooks/useCart";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 
 export default function Nav() {
   const { authUser } = useAuth();
@@ -79,7 +85,31 @@ export default function Nav() {
                 </div>
               </Link>
               <div className="lg:hidden block">
-                <RiMenuFoldLine className="h-7 w-7" />
+                <Sheet>
+                  <SheetTrigger>
+                    <RiMenuFoldLine className="h-7 w-7" />
+                  </SheetTrigger>
+                  <SheetContent className="space-y-3">
+                    <div>
+                      <Link to="/">
+                        <SheetClose asChild>
+                          <Button variant="outline" className="w-full">
+                            Home
+                          </Button>
+                        </SheetClose>
+                      </Link>
+                    </div>
+                    <div>
+                      <Link to="/shop">
+                        <SheetClose asChild>
+                          <Button variant="outline" className="w-full">
+                            Shop
+                          </Button>
+                        </SheetClose>
+                      </Link>
+                    </div>
+                  </SheetContent>
+                </Sheet>
               </div>
             </div>
           </div>

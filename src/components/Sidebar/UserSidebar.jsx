@@ -8,8 +8,10 @@ import {
 } from "@/components/ui/sheet";
 import logo from "../../assets/navLogo.png";
 import { Button } from "../ui/button";
+import useAuth from "@/hooks/useAuth";
 
 export default function UserSidebar() {
+  const { logout } = useAuth();
   return (
     <div className="lg:border-r border-b">
       <div className="flex p-5 lg:p-0 lg:min-h-screen items-center lg:flex-col flex-row justify-between">
@@ -45,7 +47,11 @@ export default function UserSidebar() {
             </Link>
           </div>
           <div>
-            <Button variant="outline" className="w-full">
+            <Button
+              onClick={() => logout()}
+              variant="outline"
+              className="w-full"
+            >
               Logout
             </Button>
           </div>

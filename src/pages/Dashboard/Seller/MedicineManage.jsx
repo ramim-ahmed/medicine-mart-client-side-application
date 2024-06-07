@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import useSecureApi from "@/hooks/useSecureApi";
 import useAuth from "@/hooks/useAuth";
 import Spinner from "@/components/Spinner";
+import { FaPlus } from "react-icons/fa6";
 import MedicineListsTable from "@/components/Table/MedicineListsTable";
 export default function MedicineManage() {
   const [open, setOpen] = useState(false);
@@ -24,14 +25,17 @@ export default function MedicineManage() {
         <div className="flex justify-end">
           <Dialog open={open}>
             <DialogTrigger onClick={() => setOpen(true)}>
-              <Button variant="outline">Add New Medicine</Button>
+              <Button className="space-x-2" variant="outline">
+                <FaPlus />
+                <span>Add New Medicine</span>
+              </Button>
             </DialogTrigger>
             <DialogContent className="max-w-4xl">
               <AddMedicineForm setOpen={setOpen} />
             </DialogContent>
           </Dialog>
         </div>
-        <div>
+        <div className="mt-4">
           {isLoading ? (
             <div className="flex justify-center">
               <Spinner />
