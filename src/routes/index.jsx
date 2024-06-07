@@ -24,6 +24,9 @@ import NotFound from "@/pages/NotFound/NotFound";
 import Shop from "@/pages/Shop/Shop";
 import UpdateProofile from "@/pages/UpdateProfile/UpdateProofile";
 import { createBrowserRouter } from "react-router-dom";
+import AdminPrivateRoute from "./AdminPrivateRoute";
+import SellerPrivateRoute from "./SellerPrivateRoute";
+import PrivateRoute from "./PrivateRoute";
 const routes = createBrowserRouter([
   {
     path: "/",
@@ -40,7 +43,11 @@ const routes = createBrowserRouter([
       },
       {
         path: "/update-profile",
-        element: <UpdateProofile />,
+        element: (
+          <PrivateRoute>
+            <UpdateProofile />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/:category/:id",
@@ -48,21 +55,37 @@ const routes = createBrowserRouter([
       },
       {
         path: "/my-cart",
-        element: <Cart />,
+        element: (
+          <PrivateRoute>
+            <Cart />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/checkout",
-        element: <Checkout />,
+        element: (
+          <PrivateRoute>
+            <Checkout />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/invoice-page/:orderId",
-        element: <Invoice />,
+        element: (
+          <PrivateRoute>
+            <Invoice />
+          </PrivateRoute>
+        ),
       },
     ],
   },
   {
     path: "/dashboard/admin",
-    element: <AdminDashboardLayout />,
+    element: (
+      <AdminPrivateRoute>
+        <AdminDashboardLayout />
+      </AdminPrivateRoute>
+    ),
     children: [
       {
         index: true,
@@ -92,7 +115,11 @@ const routes = createBrowserRouter([
   },
   {
     path: "/dashboard/seller",
-    element: <SellerDashboardLayout />,
+    element: (
+      <SellerPrivateRoute>
+        <SellerDashboardLayout />
+      </SellerPrivateRoute>
+    ),
     children: [
       {
         index: true,
@@ -114,7 +141,11 @@ const routes = createBrowserRouter([
   },
   {
     path: "/dashboard/user",
-    element: <UserDashboardLayout />,
+    element: (
+      <PrivateRoute>
+        <UserDashboardLayout />
+      </PrivateRoute>
+    ),
     children: [
       {
         index: true,

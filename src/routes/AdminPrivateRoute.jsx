@@ -3,6 +3,7 @@ import { Navigate, useLocation } from "react-router-dom";
 import useAuth from "@/hooks/useAuth";
 import useRole from "@/hooks/useRole";
 import Spinner from "@/components/Spinner";
+
 export default function AdminPrivateRoute({ children }) {
   const { authUser, loading } = useAuth();
   const [role, isLoading] = useRole();
