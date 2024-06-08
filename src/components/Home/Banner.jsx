@@ -33,8 +33,8 @@ export default function Banner() {
       >
         {data?.data?.data?.map((item) => (
           <SwiperSlide key={item._id}>
-            <div className="bg-gradient-to-r from-gray-50 to-white flex justify-between p-20 w-full rounded-xl border">
-              <div className="w-1/2 space-y-3">
+            <div className="bg-gradient-to-r from-gray-50 to-white lg:p-20 p-5 w-full rounded-xl lg:flex border">
+              <div className="lg:w-1/2 w-full space-y-3">
                 <div>
                   <h1 className="text-3xl font-bold">{item.name}</h1>
                   <p>{item.genericName}</p>
@@ -52,7 +52,7 @@ export default function Banner() {
                   </div>
                 </div>
               </div>
-              <div className="w-1/2 flex justify-center">
+              <div className="lg:w-1/2 w-full flex justify-center">
                 <img className="w-60" src={item?.image} alt="" />
               </div>
             </div>

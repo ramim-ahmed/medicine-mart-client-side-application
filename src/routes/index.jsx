@@ -27,6 +27,7 @@ import { createBrowserRouter } from "react-router-dom";
 import AdminPrivateRoute from "./AdminPrivateRoute";
 import SellerPrivateRoute from "./SellerPrivateRoute";
 import PrivateRoute from "./PrivateRoute";
+
 const routes = createBrowserRouter([
   {
     path: "/",

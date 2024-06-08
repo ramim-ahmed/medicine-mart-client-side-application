@@ -7,8 +7,8 @@ export default function Footer() {
   return (
     <div>
       <div className="max-w-7xl px-3 mx-auto">
-        <div className="grid grid-cols-4 py-10 gap-x-8 justify-between">
-          <div>
+        <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 py-10 gap-x-8 justify-between">
+          <div className="flex justify-center">
             <div>
               <img src={logo} alt="" />
               <p className="mt-2 text-gray-500">
@@ -27,7 +27,7 @@ export default function Footer() {
               </div>
             </div>
           </div>
-          <div>
+          <div className="flex justify-center lg:justify-start">
             <div>
               <h3 className="font-bold">Useful Links</h3>
               <ul className="mt-3 space-y-4">
@@ -39,7 +39,7 @@ export default function Footer() {
               </ul>
             </div>
           </div>
-          <div>
+          <div className="flex justify-center lg:justify-start">
             <div>
               <h3 className="font-bold">Categories</h3>
               <ul className="mt-3 space-y-4">

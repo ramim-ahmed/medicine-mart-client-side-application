@@ -23,7 +23,7 @@ export default function Categories() {
             <Spinner />
           </div>
         ) : (
-          <div className="grid grid-cols-5 pt-10">
+          <div className="grid lg:grid-cols-5 md:grid-cols-2 grid-cols-1 pt-10">
             {data?.data?.data.map((item) => (
               <Category key={item._id} item={item} />
             ))}
