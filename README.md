@@ -2,7 +2,12 @@
 
 Live site: client-side
 
-- [medicine-mart](https://pim-forge-client-app.vercel.app/)
+- [medicine-mart](https://medicine-mart-client-side-application.vercel.app/)
+
+admin login:
+
+email:admin@gmail.com
+pass:Admin123
 
 Features ✨:
 
