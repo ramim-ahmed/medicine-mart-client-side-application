@@ -8,7 +8,8 @@ import { BarLoader } from "react-spinners";
 import SocialAuth from "../SocialAuth";
 import { Button } from "../ui/button";
 export default function LoginForm() {
-  const { login, firebaseLoginError, authUser, loading } = useAuth();
+  const { login, firebaseLoginError, authUser } = useAuth();
+  const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState("");
@@ -16,7 +17,13 @@ export default function LoginForm() {
   const navigate = useNavigate();
   const handleLogin = async (e) => {
     e.preventDefault();
-    await login(email, password);
+    setLoading(true);
+    try {
+      await login(email, password);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+    }
   };
   useEffect(() => {
     if (authUser) {

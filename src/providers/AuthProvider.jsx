@@ -13,6 +13,7 @@ import { createContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import "../firebase";
 import useBaseApi from "@/hooks/useBaseApi";
+import { uploadImage } from "@/api/utils";
 export const AuthContext = createContext();
 export default function AuthProvider({ children }) {
   const baseApi = useBaseApi();
@@ -75,6 +76,27 @@ export default function AuthProvider({ children }) {
       toast.error(error?.message);
     }
   };
+
+  const updateUserProfile = async (username, imageFile) => {
+    const auth = getAuth();
+    try {
+      const newImageUrl = await uploadImage(imageFile);
+      await updateProfile(auth.currentUser, {
+        displayName: username,
+        photoURL: newImageUrl || authUser?.photoURL,
+      });
+      const data = {
+        email: authUser?.email,
+        username,
+        photo: newImageUrl || authUser?.photoURL,
+      };
+      setAuthUser(auth.currentUser);
+      await baseApi.patch(`/users/update-user`, data);
+      toast.success("");
+    } catch (error) {
+      toast.error("User Updated Failed!!");
+    }
+  };
   // logout
   const logout = () => {
     const auth = getAuth();
@@ -128,6 +150,7 @@ export default function AuthProvider({ children }) {
     loading,
     firebaseError,
     firebaseLoginError,
+    updateUserProfile,
   };
   return (
     <AuthContext.Provider value={authValue}>{children}</AuthContext.Provider>
