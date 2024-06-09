@@ -3,7 +3,7 @@ import { getAuth, signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import "../firebase";
 const secureApi = axios.create({
-  baseURL: "http://localhost:8000/api/v1",
+  baseURL: "https://medicine-mart-server-side-application.vercel.app/api/v1",
 });
 export default function useSecureApi() {
   const navigate = useNavigate();

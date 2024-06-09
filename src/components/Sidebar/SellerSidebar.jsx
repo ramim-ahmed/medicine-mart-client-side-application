@@ -132,7 +132,7 @@ export default function SellerSidebar() {
                 <div>
                   <SheetClose asChild>
                     <NavLink
-                      to="ask-advetisement"
+                      to="ask-advertisement"
                       className={({ isActive }) =>
                         isActive ? "text-themeColor font-bold border-b" : ""
                       }

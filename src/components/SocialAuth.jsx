@@ -1,6 +1,7 @@
 import { FcGoogle } from "react-icons/fc";
 import useAuth from "@/hooks/useAuth";
 import { useLocation, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 export default function SocialAuth() {
   const { signInWithGoogle } = useAuth();
   const navigate = useNavigate();
@@ -10,7 +11,7 @@ export default function SocialAuth() {
       await signInWithGoogle();
       navigate(location?.state ? location?.state : "/");
     } catch (error) {
-      console.log(error);
+      toast.error('Failed login With Google! Try Again');
     }
   };
   return (

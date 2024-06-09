@@ -110,12 +110,11 @@ export default function AuthProvider({ children }) {
       photo: currentUser?.photoURL,
       role,
     };
-    console.log({ currentUser, role });
+
     try {
       await baseApi.post("/users/create-new", user);
-      console.log("user-created-in-db");
     } catch (error) {
-      console.log("user-created-to-db-failed");
+      toast.error("user-created-to-db-failed");
     }
   };
   //   observer auth state changes

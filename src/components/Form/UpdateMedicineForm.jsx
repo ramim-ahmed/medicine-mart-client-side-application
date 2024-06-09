@@ -60,7 +60,6 @@ export default function UpdateMedicineForm({ item, setUpdateModalOpen }) {
         discountPercentage:
           data?.discountPercentage || item?.discountPercentage,
       };
-      console.log(newData);
       await updateMedicine(newData);
       toast.success("Update Medicine Update Successfully!!");
       setLoading(false);

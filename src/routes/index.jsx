@@ -27,6 +27,7 @@ import { createBrowserRouter } from "react-router-dom";
 import AdminPrivateRoute from "./AdminPrivateRoute";
 import SellerPrivateRoute from "./SellerPrivateRoute";
 import PrivateRoute from "./PrivateRoute";
+import UserPrivateRoute from "./UserPrivateRoute";
 
 const routes = createBrowserRouter([
   {
@@ -143,9 +144,9 @@ const routes = createBrowserRouter([
   {
     path: "/dashboard/user",
     element: (
-      <PrivateRoute>
+      <UserPrivateRoute>
         <UserDashboardLayout />
-      </PrivateRoute>
+      </UserPrivateRoute>
     ),
     children: [
       {

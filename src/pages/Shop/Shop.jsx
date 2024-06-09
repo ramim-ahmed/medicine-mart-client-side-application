@@ -14,15 +14,19 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useRef, useState } from "react";
+import Pagination from "@/components/Pagination";
 export default function Shop() {
   const searchInputRef = useRef();
+  const [currentPage, setCurrentPage] = useState(1);
   const [sortBy, setSortBy] = useState("desc");
   const [searchTerm, setSearchTerm] = useState("");
   const baseApi = useBaseApi();
   const { data, isLoading } = useQuery({
-    queryKey: ["medicines", sortBy, searchTerm],
+    queryKey: ["medicines", sortBy, searchTerm, currentPage],
     queryFn: async () =>
-      await baseApi.get(`/medicines?searchTerm=${searchTerm}&sortBy=${sortBy}`),
+      await baseApi.get(
+        `/medicines?searchTerm=${searchTerm}&sortBy=${sortBy}&page=${currentPage}&limit=${10}`
+      ),
   });
   const handleSearch = () => {
     setSearchTerm(searchInputRef.current.value);
@@ -30,6 +34,20 @@ export default function Shop() {
   };
   const clearSearch = () => {
     setSearchTerm((searchInputRef.current.value = ""));
+  };
+  const paginate = Math.ceil(data?.data?.meta?.total / 10);
+
+  const handleNextPage = () => {
+    setCurrentPage((prev) => prev + 1);
+  };
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prev) => prev - 1);
+    }
+  };
+
+  const handleSelectPage = (page) => {
+    setCurrentPage(page);
   };
   return (
     <>
@@ -77,6 +95,17 @@ export default function Shop() {
               </div>
             ) : (
               <MedicineListsTable medicines={data?.data?.data} />
+            )}
+          </div>
+          <div className="mt-2 flex justify-end">
+            {data?.data?.data?.length > 0 && (
+              <Pagination
+                currentPage={currentPage}
+                handlePrevPage={handlePrevPage}
+                handleNextPage={handleNextPage}
+                paginate={paginate}
+                handleSelectPage={handleSelectPage}
+              />
             )}
           </div>
         </div>

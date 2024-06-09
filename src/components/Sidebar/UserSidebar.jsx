@@ -66,21 +66,9 @@ export default function UserSidebar() {
                 <div>
                   <SheetClose asChild>
                     <NavLink
-                      to="payment-history"
+                      to="/dashboard/user"
                       className={({ isActive }) =>
                         isActive ? "text-themeColor font-bold border-b " : ""
-                      }
-                    >
-                      <p className="font-semibold">Payment History</p>
-                    </NavLink>
-                  </SheetClose>
-                </div>
-                <div>
-                  <SheetClose asChild>
-                    <NavLink
-                      to="payment-history"
-                      className={({ isActive }) =>
-                        isActive ? "text-themeColor font-bold border-b" : ""
                       }
                     >
                       <p className="font-semibold">Payment History</p>

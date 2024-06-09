@@ -28,7 +28,6 @@ export default function CheckoutForm({ shippingInfo }) {
       secureApi
         .post("/payments/create-payment-intent", { price: grandTotal })
         .then((res) => {
-          console.log(res.data.clientSecret, "client-secret");
           setClientSecret(res.data.clientSecret);
         });
     }
@@ -36,7 +35,12 @@ export default function CheckoutForm({ shippingInfo }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    if (shippingInfo.phoneNumber.length <= 0) {
+      return toast.error("Please filup shipping info!!");
+    }
+    if (shippingInfo.address.length <= 0) {
+      return toast.error("Please filup shipping info!!");
+    }
     if (!stripe || !elements) {
       return;
     }
@@ -95,7 +99,6 @@ export default function CheckoutForm({ shippingInfo }) {
           };
 
           const orderRes = await secureApi.post("/orders/create-new", orders);
-          console.log(orderRes);
           // now save the payment in the database
           const payment = {
             orderId: orderRes?.data?.data._id,
