@@ -4,17 +4,18 @@ import { Label } from "@/components/ui/label";
 import useAuth from "@/hooks/useAuth";
 import useRole from "@/hooks/useRole";
 import { useState } from "react";
-
 export default function UpdateProofile() {
   const { authUser, updateUserProfile } = useAuth();
   const [role] = useRole();
   const [isEditable, setIsEditable] = useState(false);
   const [username, setUsername] = useState(authUser?.displayName);
   const [imageFile, setImageFile] = useState();
+
   const handleUpdateProfile = async () => {
     await updateUserProfile(username, imageFile);
     setIsEditable(false);
   };
+
   return (
     <div className="max-w-7xl mx-auto px-3 py-10">
       <div className="grid lg:grid-cols-2 grid-cols-1 gap-6">
