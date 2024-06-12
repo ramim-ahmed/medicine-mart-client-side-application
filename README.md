@@ -7,7 +7,14 @@ Live site: client-side
 admin login:
 
 email:admin@gmail.com
+<br>
 pass:Admin123
+
+seller login:
+
+email:seller@gmail.com
+<br>
+pass:Seller123
 
 Features ✨:
 
