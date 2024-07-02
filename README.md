@@ -47,3 +47,40 @@ Tech Uses 🔥:
 - [React-Spinner](https://www.npmjs.com/package/react-spinners) : that allows to use beautifully design spinner like that showing when data loaded or fetch.
 - [Swiper](https://swiperjs.com/) :that allows help pre build slider use to application.
 - [React-Hook-Form](https://react-hook-form.com/): that allows to form handling with validation
+
+Please follow the below instructions to run your machine.
+
+1. install nodejs -
+
+   ```sh
+   https://nodejs.org/en/download/package-manager
+   ```
+2. clone this repository
+   ```sh
+   https://github.com/ramim-ahmed/medicine-mart-client-side-application
+   ```
+3. set env variable create [.env] file
+   ```sh
+   VITE_APP_API_KEY = your firebase config app key
+   VITE_APP_AUTH_DOMAIN = your firebase prject auth domain
+   VITE_APP_PRJECT_ID = your firebase config project id
+   VITE_APP_STORAGE_BUCKET = your firebase config storage bucket
+   VITE_APP_MESSAGING_SENDER_ID = your firebase config messaging sender id
+   VITE_APP_APP_ID = your firebase config app id
+
+   VITE_APP_CLOUDINARY_PRESET = your cloudinary preset
+   VITE_APP_CLOUD_NAME = your cloudinary cloud name
+
+   VITE_Payment_Gateway_PK = your stripe account public key
+   ```
+4. install all packages
+
+   ```sh
+   npm install
+   ```
+
+5. run project
+   ```sh
+   npm run dev
+   ```
+
